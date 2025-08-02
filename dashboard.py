@@ -31,11 +31,11 @@ def plot_prediction(df, label):
 periode = st.sidebar.selectbox("Pilih Periode", ["5 Tahun", "10 Tahun"])
 
 if periode == "10 Tahun":
-    lstm_file = "csv_model_lstm_10tahun_bitcoin.keras.csv"
-    gru_file = "csv_model_gru_10tahun_bitcoin.keras.csv"
+    lstm_file = "csv_model_lstm_10tahun_bitcoin.csv"
+    gru_file = "csv_model_gru_10tahun_bitcoin.csv"
 else:
-    lstm_file = "csv_model_lstm_5tahun_bitcoin.keras.csv"
-    gru_file = "csv_model_gru_5tahun_bitcoin.keras.csv"
+    lstm_file = "csv_model_lstm_5tahun_bitcoin.csv"
+    gru_file = "csv_model_gru_5tahun_bitcoin.csv"
 
 # =========================
 # Load CSV
