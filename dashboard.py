@@ -6,13 +6,17 @@ st.set_page_config(page_title="Prediksi Bitcoin CSV", layout="wide")
 st.title("📊 Dashboard Prediksi Bitcoin dari CSV (LSTM vs GRU)")
 
 # =========================
-# Fungsi bantu untuk visualisasi
+# Fungsi bantu
 # =========================
 def load_and_prepare_csv(path):
     df = pd.read_csv(path)
     df['Tanggal'] = pd.to_datetime(df['Tanggal'])
     df.set_index('Tanggal', inplace=True)
     return df
+
+def load_eval(path):
+    df = pd.read_csv(path)
+    return df.iloc[0]  # Ambil baris pertama karena hanya satu baris
 
 def plot_prediction(df, label):
     fig, ax = plt.subplots(figsize=(8, 4))
@@ -31,20 +35,27 @@ def plot_prediction(df, label):
 periode = st.sidebar.selectbox("Pilih Periode", ["5 Tahun", "10 Tahun"])
 
 if periode == "10 Tahun":
-    lstm_file = "csv_model_lstm_10tahun_bitcoin.csv"
-    gru_file = "csv_model_gru_10tahun_bitcoin.csv"
+    lstm_file = "assets/csv_model_lstm_10tahun_bitcoin.csv"
+    gru_file = "assets/csv_model_gru_10tahun_bitcoin.csv"
+    eval_lstm_file = "assets/csv_evalscore_model_lstm_10tahun_bitcoin.csv"
+    eval_gru_file = "assets/csv_evalscore_model_gru_10tahun_bitcoin.csv"
 else:
-    lstm_file = "csv_model_lstm_5tahun_bitcoin.csv"
-    gru_file = "csv_model_gru_5tahun_bitcoin.csv"
+    lstm_file = "assets/csv_model_lstm_5tahun_bitcoin.csv"
+    gru_file = "assets/csv_model_gru_5tahun_bitcoin.csv"
+    eval_lstm_file = "assets/csv_evalscore_model_lstm_5tahun_bitcoin.csv"
+    eval_gru_file = "assets/csv_evalscore_model_gru_5tahun_bitcoin.csv"
 
 # =========================
-# Load CSV
+# Load Data
 # =========================
 df_lstm = load_and_prepare_csv(lstm_file)
 df_gru = load_and_prepare_csv(gru_file)
 
+eval_lstm = load_eval(eval_lstm_file)
+eval_gru = load_eval(eval_gru_file)
+
 # =========================
-# Pilih rentang waktu
+# Filter Tanggal
 # =========================
 min_date = df_lstm.index.min().date()
 max_date = df_lstm.index.max().date()
@@ -57,7 +68,7 @@ df_lstm_filtered = df_lstm.loc[str(start_date):str(end_date)]
 df_gru_filtered = df_gru.loc[str(start_date):str(end_date)]
 
 # =========================
-# Layout Horizontal
+# Layout
 # =========================
 col1, col2 = st.columns(2)
 
@@ -66,7 +77,19 @@ with col1:
     st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"))
     st.dataframe(df_lstm_filtered)
 
+    st.markdown("**📈 Hasil Evaluasi LSTM:**")
+    st.markdown(f"- RMSE: `{eval_lstm['RMSE']}`")
+    st.markdown(f"- MAE: `{eval_lstm['MAE']}`")
+    st.markdown(f"- R²: `{eval_lstm['R2']}`")
+    st.markdown(f"- MAPE: `{eval_lstm['MAPE']}`")
+
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
     st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"))
     st.dataframe(df_gru_filtered)
+
+    st.markdown("**📈 Hasil Evaluasi GRU:**")
+    st.markdown(f"- RMSE: `{eval_gru['RMSE']}`")
+    st.markdown(f"- MAE: `{eval_gru['MAE']}`")
+    st.markdown(f"- R²: `{eval_gru['R2']}`")
+    st.markdown(f"- MAPE: `{eval_gru['MAPE']}`")
