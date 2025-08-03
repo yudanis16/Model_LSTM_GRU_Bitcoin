@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Prediksi Bitcoin CSV", layout="wide")
-st.title("📊 Dashboard Prediksi Bitcoin dari CSV (LSTM vs GRU)")
+st.set_page_config(page_title="Perbandingan Model LSTM dan GRU", layout="wide")
+st.title("📊 Perbandingan Model LSTM dan GRU dalam mempreidksi harga penutupan harian Bitcoin")
 
 # =========================
 # Fungsi bantu
