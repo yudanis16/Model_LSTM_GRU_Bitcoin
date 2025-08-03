@@ -70,39 +70,62 @@ df_gru_filtered = df_gru.loc[str(start_date):str(end_date)]
 # =========================
 # Layout
 # =========================
+def render_eval_table(title, eval_dict):
+    st.markdown(f"**📈 {title}**")
+
+    html = f"""
+    <style>
+        .styled-table {{
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 100%;
+            text-align: center;
+        }}
+        .styled-table thead tr {{
+            background-color: #2c2f33;
+            color: #ffffff;
+        }}
+        .styled-table td, .styled-table th {{
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }}
+        .styled-table tbody td:nth-child(2) {{
+            color: #00ff88;
+            font-weight: bold;
+        }}
+    </style>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Hasil</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>RMSE</td><td>{float(eval_dict['RMSE']):,.2f}</td></tr>
+            <tr><td>MAE</td><td>{float(eval_dict['MAE']):,.2f}</td></tr>
+            <tr><td>R²</td><td>{float(eval_dict['R2']):.4f}</td></tr>
+            <tr><td>MAPE</td><td>{eval_dict['MAPE']}</td></tr>
+        </tbody>
+    </table>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+
+# =========================
+# Layout
+# =========================
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown(f"### 🔵 LSTM - {periode}")
     st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"))
     st.dataframe(df_lstm_filtered)
-
-    st.markdown("**📈 Hasil Evaluasi LSTM:**")
-    eval_lstm_df = pd.DataFrame({
-        "Metric": ["RMSE", "MAE", "R²", "MAPE"],
-        "Hasil": [
-            f"{eval_lstm['RMSE']:.2f}",
-            f"{eval_lstm['MAE']:.2f}",
-            f"{eval_lstm['R2']:.4f}",
-            eval_lstm['MAPE']  # Biarkan persen dalam string
-        ]
-    })
-    st.dataframe(eval_lstm_df.set_index("Metric"), use_container_width=True)
-
+    render_eval_table("Hasil Evaluasi LSTM", eval_lstm)
 
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
     st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"))
     st.dataframe(df_gru_filtered)
-
-    st.markdown("**📈 Hasil Evaluasi GRU:**")
-    eval_gru_df = pd.DataFrame({
-        "Metric": ["RMSE", "MAE", "R²", "MAPE"],
-        "Hasil": [
-            f"{eval_gru['RMSE']:.2f}",
-            f"{eval_gru['MAE']:.2f}",
-            f"{eval_gru['R2']:.4f}",
-            eval_gru['MAPE']
-        ]
-    })
-    st.dataframe(eval_gru_df.set_index("Metric"), use_container_width=True)
+    render_eval_table("Hasil Evaluasi GRU", eval_gru)
