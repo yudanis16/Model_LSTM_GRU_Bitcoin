@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Perbandingan Model LSTM dan GRU", layout="wide")
-st.title("📊 Perbandingan Model LSTM dan GRU dalam mempreidksi harga penutupan harian Bitcoin")
+st.title("📊 Perbandingan Model LSTM dan GRU dalam memprediksi harga penutupan harian Bitcoin")
 
 # =========================
 # Fungsi bantu
@@ -78,10 +78,12 @@ with col1:
     st.dataframe(df_lstm_filtered)
 
     st.markdown("**📈 Hasil Evaluasi LSTM:**")
-    st.markdown(f"- RMSE: `{eval_lstm['RMSE']}`")
-    st.markdown(f"- MAE: `{eval_lstm['MAE']}`")
-    st.markdown(f"- R²: `{eval_lstm['R2']}`")
-    st.markdown(f"- MAPE: `{eval_lstm['MAPE']}`")
+    eval_lstm_df = pd.DataFrame({
+        "Metric": ["RMSE", "MAE", "R²", "MAPE"],
+        "Value": [eval_lstm['RMSE'], eval_lstm['MAE'], eval_lstm['R2'], eval_lstm['MAPE']]
+    })
+    st.table(eval_lstm_df)
+
 
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
@@ -89,7 +91,8 @@ with col2:
     st.dataframe(df_gru_filtered)
 
     st.markdown("**📈 Hasil Evaluasi GRU:**")
-    st.markdown(f"- RMSE: `{eval_gru['RMSE']}`")
-    st.markdown(f"- MAE: `{eval_gru['MAE']}`")
-    st.markdown(f"- R²: `{eval_gru['R2']}`")
-    st.markdown(f"- MAPE: `{eval_gru['MAPE']}`")
+    eval_gru_df = pd.DataFrame({
+        "Metric": ["RMSE", "MAE", "R²", "MAPE"],
+        "Value": [eval_gru['RMSE'], eval_gru['MAE'], eval_gru['R2'], eval_gru['MAPE']]
+    })
+    st.table(eval_gru_df)
