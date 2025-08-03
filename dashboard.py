@@ -80,9 +80,14 @@ with col1:
     st.markdown("**📈 Hasil Evaluasi LSTM:**")
     eval_lstm_df = pd.DataFrame({
         "Metric": ["RMSE", "MAE", "R²", "MAPE"],
-        "Value": [eval_lstm['RMSE'], eval_lstm['MAE'], eval_lstm['R2'], eval_lstm['MAPE']]
+        "Hasil": [
+            f"{eval_lstm['RMSE']:.2f}",
+            f"{eval_lstm['MAE']:.2f}",
+            f"{eval_lstm['R2']:.4f}",
+            eval_lstm['MAPE']  # Biarkan persen dalam string
+        ]
     })
-    st.table(eval_lstm_df)
+    st.dataframe(eval_lstm_df.set_index("Metric"), use_container_width=True)
 
 
 with col2:
@@ -93,6 +98,11 @@ with col2:
     st.markdown("**📈 Hasil Evaluasi GRU:**")
     eval_gru_df = pd.DataFrame({
         "Metric": ["RMSE", "MAE", "R²", "MAPE"],
-        "Value": [eval_gru['RMSE'], eval_gru['MAE'], eval_gru['R2'], eval_gru['MAPE']]
+        "Hasil": [
+            f"{eval_gru['RMSE']:.2f}",
+            f"{eval_gru['MAE']:.2f}",
+            f"{eval_gru['R2']:.4f}",
+            eval_gru['MAPE']
+        ]
     })
-    st.table(eval_gru_df)
+    st.dataframe(eval_gru_df.set_index("Metric"), use_container_width=True)
