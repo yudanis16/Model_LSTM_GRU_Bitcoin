@@ -29,22 +29,6 @@ def plot_prediction(df, label):
     ax.legend()
     return fig
 
-def add_trend_column(df):
-    trend = []
-    prev = None
-    for val in df["Predicted"]:
-        if prev is None:
-            trend.append("➖")
-        elif val > prev:
-            trend.append("🔺")
-        elif val < prev:
-            trend.append("🔻")
-        else:
-            trend.append("➖")
-        prev = val
-    df["Trend"] = trend
-    return df
-
 
 # =========================
 # Pilihan periode
@@ -139,19 +123,10 @@ with col1:
     st.markdown(f"### 🔵 LSTM - {periode}")
     st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"))
     st.dataframe(df_lstm_filtered)
-    
-    df_lstm_with_trend = add_trend_column(df_lstm_filtered.copy())
-    st.dataframe(df_lstm_with_trend)
-    
     render_eval_table("Hasil Evaluasi LSTM", eval_lstm)
 
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
     st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"))
     st.dataframe(df_gru_filtered)
-    
-    df_gru_with_trend = add_trend_column(df_gru_filtered.copy())
-    st.dataframe(df_gru_with_trend)
-        
-    
     render_eval_table("Hasil Evaluasi GRU", eval_gru)
