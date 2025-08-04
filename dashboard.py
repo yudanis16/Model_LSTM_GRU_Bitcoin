@@ -122,10 +122,23 @@ with col1:
     st.markdown(f"### 🔵 LSTM - {periode}")
     st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"))
     st.dataframe(df_lstm_filtered)
+    
+    avg_diff_lstm = df_lstm_filtered['Difference'].abs().mean()
+    max_diff_lstm = df_lstm_filtered['Difference'].abs().max()
+    st.markdown(f"🔍 Rata-rata selisih prediksi LSTM: **{avg_diff_lstm:.2f} USD**")
+    st.markdown(f"🚨 Selisih prediksi terbesar LSTM: **{max_diff_lstm:.2f} USD**")
+    
     render_eval_table("Hasil Evaluasi LSTM", eval_lstm)
 
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
     st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"))
     st.dataframe(df_gru_filtered)
+    
+    avg_diff_gru = df_gru_filtered['Difference'].abs().mean()
+    max_diff_gru = df_gru_filtered['Difference'].abs().max()
+    st.markdown(f"🔍 Rata-rata selisih prediksi GRU: **{avg_diff_gru:.2f} USD**")
+    st.markdown(f"🚨 Selisih prediksi terbesar GRU: **{max_diff_gru:.2f} USD**")
+        
+    
     render_eval_table("Hasil Evaluasi GRU", eval_gru)
