@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Perbandingan Model LSTM dan GRU", layout="wide")
-st.title("📊 Perbandingan Model LSTM dan GRU dalam memprediksi harga penutupan harian Bitcoin")
+st.title("📊 Perbandingan Model LSTM dan GRU Dalam Memprediksi Harga Penutupan Harian Bitcoin")
 
 # =========================
 # Fungsi bantu
