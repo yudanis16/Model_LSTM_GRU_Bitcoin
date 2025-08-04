@@ -21,7 +21,7 @@ def load_eval(path):
 def plot_prediction(df, label):
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(df.index, df["Actual"], label="Actual", color="blue")
-    ax.plot(df.index, df["Predicted"], label="Predicted", color="orange", linestyle="--")
+    ax.plot(df.index, df["Predicted"], label="Predicted", color="orange", linestyle="--", linewidth=2)
     ax.set_title(f"Prediksi Harga Bitcoin - {label}")
     ax.set_xlabel("Tanggal")
     ax.set_ylabel("Harga (USD)")
