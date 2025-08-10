@@ -27,7 +27,13 @@ def plot_prediction(df, label):
     ax.set_ylabel("Harga (USD)")
     ax.grid(True)
     ax.legend()
+    locator = mdates.AutoDateLocator(minticks=6, maxticks=10)
+    ax.xaxis.set_major_locator(locator)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    fig.autofmt_xdate()
+    fig.tight_layout()
     return fig
+
 
 
 # =========================
@@ -121,12 +127,12 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown(f"### 🔵 LSTM - {periode}")
-    st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"))
+    st.pyplot(plot_prediction(df_lstm_filtered, f"LSTM - {periode}"), use_container_width=True)
     st.dataframe(df_lstm_filtered)
     render_eval_table("Hasil Evaluasi LSTM", eval_lstm)
 
 with col2:
     st.markdown(f"### 🟠 GRU - {periode}")
-    st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"))
+    st.pyplot(plot_prediction(df_gru_filtered, f"GRU - {periode}"), use_container_width=True)
     st.dataframe(df_gru_filtered)
     render_eval_table("Hasil Evaluasi GRU", eval_gru)
