@@ -10,8 +10,8 @@ st.title("📊 Perbandingan Model LSTM dan GRU Dalam Memprediksi Harga Penutupan
 # =========================
 def load_and_prepare_csv(path):
     df = pd.read_csv(path)
-    df['Tanggal'] = pd.to_datetime(df['Tanggal'])
-    df.set_index('Tanggal', inplace=True)
+    df['Date'] = pd.to_datetime(df['Date'])
+    df.set_index('Date', inplace=True)
     return df
 
 def load_eval(path):
