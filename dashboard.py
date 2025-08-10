@@ -107,7 +107,7 @@ def render_eval_table(title, eval_dict):
             <tr><td>RMSE</td><td>{float(eval_dict['RMSE']):,.2f}</td></tr>
             <tr><td>MAE</td><td>{float(eval_dict['MAE']):,.2f}</td></tr>
             <tr><td>R²</td><td>{float(eval_dict['R2']):.4f}</td></tr>
-            <tr><td>MAPE</td><td>{eval_dict['MAPE']}</td></tr>
+            <tr><td>MAPE</td><td>{eval_dict['MAPE']:.2f}</td></tr>
         </tbody>
     </table>
     """
