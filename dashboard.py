@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 st.set_page_config(page_title="Perbandingan Model LSTM dan GRU", layout="wide")
 st.title("📊 Perbandingan Model LSTM dan GRU Dalam Memprediksi Harga Penutupan Harian Bitcoin")
@@ -19,17 +20,22 @@ def load_eval(path):
     return df.iloc[0]  # Ambil baris pertama karena hanya satu baris
 
 def plot_prediction(df, label):
+    df = df.sort_index()  # optional
+
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(df.index, df["Actual"], label="Actual", color="blue")
-    ax.plot(df.index, df["Predicted"], label="Predicted", color="orange", linestyle="--", linewidth=2)
+    ax.plot(df.index, df["Predicted"], label="Predicted",
+            color="orange", linestyle="--", linewidth=2)
+
     ax.set_title(f"Prediksi Harga Bitcoin - {label}")
     ax.set_xlabel("Tanggal")
     ax.set_ylabel("Harga (USD)")
     ax.grid(True)
     ax.legend()
+
     locator = mdates.AutoDateLocator(minticks=6, maxticks=10)
     ax.xaxis.set_major_locator(locator)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
     fig.autofmt_xdate()
     fig.tight_layout()
     return fig
